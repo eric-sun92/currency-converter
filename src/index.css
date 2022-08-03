@@ -5,9 +5,27 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
+  margin-top: 5rem;
+  display: flex;
+  justify-content: center;
+  text-align: center;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+.currencyRow {
+  display: flex;
+  width: 13rem;
+  justify-content: space-between;
+  margin: 1rem;
 }
+
+.currencyRow input {
+  padding: 0.5rem;
+}
+
+.equals {
+  font-size: 2rem;
+  font-weight: 700;
+}
+
+
