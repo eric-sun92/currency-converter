@@ -1,8 +1,8 @@
 // @ts-nocheck
 import React, { useEffect } from "react";
 import { useState } from "react";
-import CurrencyRow from "./CurrencyRow";
-import { api_key } from "./api_key";
+import CurrencyRow from "./CurrencyRow.js";
+import { api_key } from "./api_key.js";
 
 function App() {
   const [currencyOptions, setCurrencyOptions] = useState([]);
@@ -27,21 +27,8 @@ function App() {
   }
 
   useEffect(() => {
-    var myHeaders = new Headers();
-    myHeaders.append("apikey", api_key);
-
-    var requestOptions = {
-      method: "GET",
-      redirect: "follow",
-      headers: myHeaders,
-    };
-
-    fetch(
-      "https://api.apilayer.com/exchangerates_data/latest?symbols=&base=",
-      requestOptions
-    )
-      .then((response) => response.text())
-      .then((response) => JSON.parse(response))
+    fetch("http://localhost:8000")
+      .then((response) => response.json())
       .then((result) => {
         let firstCurrency = Object.keys(result.rates)[0];
         setFromCurrency(result.base);
@@ -53,21 +40,14 @@ function App() {
 
   useEffect(() => {
     if (fromCurrency != null && toCurrency != null) {
-      var myHeaders = new Headers();
-      myHeaders.append("apikey", api_key);
-
-      var requestOptions = {
-        method: "GET",
-        redirect: "follow",
-        headers: myHeaders,
-      };
-
       fetch(
-        `https://api.apilayer.com/exchangerates_data/latest?symbols=${toCurrency}&base=${fromCurrency}`,
-        requestOptions
+        `http://localhost:8000/specific?` +
+          new URLSearchParams({
+            to_currency: toCurrency,
+            from_currency: fromCurrency,
+          })
       )
-        .then((response) => response.text())
-        .then((response) => JSON.parse(response))
+        .then((response) => response.json())
         .then((result) => {
           setRate(result.rates[toCurrency]);
         })
